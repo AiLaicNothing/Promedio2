@@ -14,7 +14,7 @@ public class CropField : MonoBehaviour
     [SerializeField] private float timeToGrow; // Time in seconds for the crop to grow
     private float timer;
 
-    private GameObject currentUnGrowInstance; // Track the instantiated unGrowPrefab
+    private GameObject currentUnGrowInstance; 
     private GameObject currentCropInstance;
 
     private void Update()
@@ -27,7 +27,7 @@ public class CropField : MonoBehaviour
 
     public void PlantCrop()
     {
-            timer = 0f; // Reset the timer
+            timer = 0f; 
             // Instantiate the initial (ungrown) crop visual
             hasCrop = true;
             currentUnGrowInstance = Instantiate(unGrowPrefab, cropPos.position, Quaternion.identity);
@@ -39,7 +39,6 @@ public class CropField : MonoBehaviour
         if (timer < timeToGrow)
         {
             timer += Time.deltaTime;
-            // Update the ungrown crop state here if needed
         }
 
         if (timer >= timeToGrow)
@@ -47,7 +46,7 @@ public class CropField : MonoBehaviour
             Destroy(currentUnGrowInstance); // Destroy the ungrown crop instance
             currentCropInstance = Instantiate(cropPrefab, cropPos.position, Quaternion.identity); // Spawn the grown crop
             cropHasGrown = true;
-            hasCrop = true; // Reset the crop field
+            hasCrop = true; 
         }
     }
 
