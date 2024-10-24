@@ -7,18 +7,19 @@ public class CropField : MonoBehaviour
     [SerializeField] protected Transform cropPos; // Position to place the crop
     [SerializeField] private GameObject cropPrefab; // Prefab of the crop to grow
     [SerializeField] private GameObject unGrowPrefab; // Prefab for the initial state of the crop
-    private bool hasCrop = false;
+    public bool hasCrop = false;
 
-    private bool cropHasGrown = false;
+    public bool cropHasGrown = false;
 
     [SerializeField] private float timeToGrow; // Time in seconds for the crop to grow
     private float timer;
 
     private GameObject currentUnGrowInstance; // Track the instantiated unGrowPrefab
+    private GameObject currentCropInstance;
 
     private void Update()
     {
-        if (hasCrop)
+        if (hasCrop && cropHasGrown == false)
         {
             GrowCrop();
         }
@@ -26,14 +27,11 @@ public class CropField : MonoBehaviour
 
     public void PlantCrop()
     {
-        if (!hasCrop)
-        {
-            hasCrop = true;
             timer = 0f; // Reset the timer
             // Instantiate the initial (ungrown) crop visual
+            hasCrop = true;
             currentUnGrowInstance = Instantiate(unGrowPrefab, cropPos.position, Quaternion.identity);
             cropHasGrown = false;
-        }
     }
 
     private void GrowCrop()
@@ -46,18 +44,17 @@ public class CropField : MonoBehaviour
 
         if (timer >= timeToGrow)
         {
-            // Give crop to player and replace the ungrown crop
-            SpawnCrop();
             Destroy(currentUnGrowInstance); // Destroy the ungrown crop instance
-            Instantiate(cropPrefab, cropPos.position, Quaternion.identity); // Spawn the grown crop
+            currentCropInstance = Instantiate(cropPrefab, cropPos.position, Quaternion.identity); // Spawn the grown crop
             cropHasGrown = true;
-            hasCrop = false; // Reset the crop field
+            hasCrop = true; // Reset the crop field
         }
     }
 
-    protected virtual void SpawnCrop()
+    public void DeletecCrop()
     {
-        // Implement the logic to give the crop to the player
-        // Example: PlayerInventory.Add(cropPrefab);
+        Destroy(currentCropInstance);
+        cropHasGrown = false ;
+        hasCrop = false ;
     }
 }

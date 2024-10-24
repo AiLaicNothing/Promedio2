@@ -7,8 +7,6 @@ public class SellCrop : Interaction
 {
     private Inventory inventory;
 
-
-
     private void Start()
     {
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
@@ -16,8 +14,11 @@ public class SellCrop : Interaction
 
     private void Sell()
     {
-        inventory.Crops -= 1;
-        inventory.Money += 1;
+        if(inventory.Crops < 0)
+        {
+            inventory.Crops -= 1;
+            inventory.Money += 1;
+        }
     }
 
     protected override void ActionSell()

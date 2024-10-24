@@ -7,16 +7,29 @@ public class Interaction : MonoBehaviour
 {
     private bool storeInRange;
     private bool cropFieldInRange;
-    private void interaction(InputAction.CallbackContext context)
+
+    protected CropField CurrentCropField;
+    public void interaction(InputAction.CallbackContext context)
     {
-        if (cropFieldInRange)
+        if (context.started)
         {
-            ActionCrop();
+            if (cropFieldInRange)
+            {
+                ActionCrop();
+            }
+            else if (storeInRange)
+            {
+                ActionSell();
+            }
         }
-        else if (storeInRange)
-        {
-            ActionSell();
-        }
+        //if (cropFieldInRange)
+        //{
+        //    ActionCrop();
+        //}
+        //else if (storeInRange)
+        //{
+        //    ActionSell();
+        //}
     }
 
     protected virtual void ActionCrop()
@@ -36,6 +49,7 @@ public class Interaction : MonoBehaviour
         else if (other.CompareTag("CropField"))
         {
             cropFieldInRange = true;
+            CurrentCropField = other.GetComponent<CropField>();
         }
     }
     private void OnTriggerExit(Collider other)
@@ -47,6 +61,8 @@ public class Interaction : MonoBehaviour
         else if (other.CompareTag("CropField"))
         {
             cropFieldInRange = false;
+            CurrentCropField = null;
+
         }
     }
 }

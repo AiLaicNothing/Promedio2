@@ -3,34 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Harvest : MonoBehaviour
+public class Harvest : Interaction
 {
-    private bool cropFieldInRange = false;
-    private CropField currentCropField;
-    private void OnTriggerEnter(Collider other)
+    private Inventory inventory;
+    private void Start()
     {
-        if (other.CompareTag("Dirt"))
+        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+    }
+    protected override void ActionCrop()
+    {
+        if (CurrentCropField == null)
         {
-            cropFieldInRange = true;
-            currentCropField = other.GetComponent<CropField>();
+            Debug.LogWarning("CurrentCropField is null");
+            return;
+        }
+
+        if (!CurrentCropField.hasCrop)
+        {
+            Debug.Log("Planting crop");
+            CurrentCropField.PlantCrop();
+        }
+        else if (CurrentCropField.hasCrop && CurrentCropField.cropHasGrown)
+        {
+            Debug.Log("Harvesting crop");
+            HarvestCrop();
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void HarvestCrop()
     {
-        if (other.CompareTag("Dirt"))
-        {
-            cropFieldInRange = false;
-            currentCropField = null;
-        }
-    }
-
-    public void Action(InputAction.CallbackContext context)
-    {
-
-        if (cropFieldInRange) 
-        {;
-            currentCropField.PlantCrop();
-        }
+        CurrentCropField.DeletecCrop();
+        inventory.Crops += 1;
     }
 }

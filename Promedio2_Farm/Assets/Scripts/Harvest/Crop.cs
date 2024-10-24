@@ -18,9 +18,5 @@ public class Crop : CropField
 
     }
 
-    protected override void SpawnCrop()
-    {
-        //Spawn the crop
-        //Instantiate(PrefabCrop,CropPos);
-    }
+
 }
