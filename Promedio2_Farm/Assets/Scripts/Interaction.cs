@@ -19,6 +19,7 @@ public class Interaction : MonoBehaviour
             }
             else if (storeInRange)
             {
+                Debug.Log("SEll");
                 ActionSell();
             }
         }

@@ -14,7 +14,7 @@ public class SellCrop : Interaction
 
     private void Sell()
     {
-        if(inventory.Crops < 0)
+        if(inventory.Crops > 0)
         {
             inventory.Crops -= 1;
             inventory.Money += 1;
